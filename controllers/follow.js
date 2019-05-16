@@ -1,7 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 //Importar modelo
-const User = require('../models/user');
 const Follow = require('../models/follow');
 
 
@@ -16,19 +15,34 @@ function saveFollow(req, res) {
     follow.user = req.user._id;
     follow.user_followed = params.follow;
 
-    follow.save((err, followStored) => {
+
+    Follow.findOne({ "user": follow.user, "user_followed": follow.user_followed }, (err, result) => {
         if (err) return res.status(500).json({ ok: false, msg: `Error ${err}` })
 
-        if (!followStored) {
-            return res.status(404).json({ ok: false, msg: `El siguimiento no se ha guardado` });
+        if (result) {
+            return res.json({
+                ok: false,
+                msg: "Ya sigue a ese usuario"
+            });
+        } else {
+
+            follow.save((err, followStored) => {
+                if (err) return res.status(500).json({ ok: false, msg: `Error ${err}` })
+
+                if (!followStored) {
+                    return res.status(404).json({ ok: false, msg: `El siguimiento no se ha guardado` });
+                }
+
+                return res.json({
+                    ok: true,
+                    follow: followStored
+                })
+
+            });
         }
-
-        return res.json({
-            ok: true,
-            follow: followStored
-        })
-
     });
+
+
 }
 
 function unfollow(req, res) {
@@ -105,7 +119,7 @@ function getFollowers(req, res) {
     let itemsPerPage = req.params.limite || 10;
     itemsPerPage = Number(itemsPerPage);
 
-    Follow.find({ user: userId })
+    Follow.find({ user_followed: userId })
         .populate('user', 'nick')
         .exec((err, followers) => {
             if (err) {
@@ -116,7 +130,7 @@ function getFollowers(req, res) {
                 return res.status(404).json({ ok: true, msg: `No tiene ningún usuario siguiendolo` })
             }
 
-            Follow.countDocuments({ user: userId }, (err, conteo) => {
+            Follow.countDocuments({ user_followed: userId }, (err, conteo) => {
 
                 if (err) {
                     return res.status(500).json({ ok: false, msg: `Error en conteo ${err}` })
@@ -125,9 +139,9 @@ function getFollowers(req, res) {
                 return res.json({
                     ok: true,
                     pages: Math.ceil(conteo / itemsPerPage),
+                    total_followers: conteo,
                     users_following_you: followers
                 });
-
             })
         });
 }

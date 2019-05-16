@@ -12,5 +12,6 @@ api.get('/listar', verificaToken, UserController.getAllUsers);
 api.put('/actualizar/:id', verificaToken, UserController.actualizarUsuario);
 api.put('/borrar/:id', [verificaToken, verificaAdminRol], UserController.borrarUsuario);
 api.delete('/eliminar/:id', [verificaToken, verificaAdminRol], UserController.eliminarCompletoUsuario);
+api.get('/stats/:id?', verificaToken, UserController.getCounters);
 
 module.exports = api;
