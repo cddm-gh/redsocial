@@ -20,7 +20,6 @@ let verificaToken = (req, res, next) => {
         }
 
         req.user = decoded.user;
-        //next() para continuar la ejecución si pasa la verificación
         next();
     });
 
@@ -44,8 +43,24 @@ let verificaAdminRol = (req, res, next) => {
 
 };
 
+let verificaTokenUrl = (req, res, next) => {
+
+    let token = req.query.token;
+
+    //token, semilla, callback(error, objeto desencriptado)
+    jwt.verify(token, process.env.SEED, (err, decoded) => {
+        if (err) {
+            return res.status(401).json({ ok: false, message: "Token inválido" });
+        }
+
+        req.user = decoded.user;
+        next();
+    });
+}
+
 
 module.exports = {
     verificaToken,
+    verificaTokenUrl,
     verificaAdminRol
 }

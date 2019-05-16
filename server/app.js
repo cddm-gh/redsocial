@@ -5,7 +5,10 @@ const app = express();
 
 //Cargar rutas
 const user_routes = require('../routes/user');
+const upload_routes = require('../routes/upload');
+const imagenes_routes = require('../routes/imagenes');
 
+const follow_routes = require('../routes/follow');
 //Middlewares
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -14,7 +17,10 @@ app.use(bodyParser.json());
 
 
 //Rutas
-app.use('/user', user_routes);
+app.use('/api', user_routes);
+app.use('/api', upload_routes);
+app.use('/api', imagenes_routes);
+app.use('/api', follow_routes);
 
 //Exportar
 module.exports = app;
