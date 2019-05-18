@@ -1,6 +1,6 @@
 const express = require('express');
 const FollowController = require('../controllers/follow');
-const { verificaToken, verificaAdminRol } = require('../middlewares/autenticacion');
+const { verificaToken } = require('../middlewares/autenticacion');
 
 const api = express.Router();
 

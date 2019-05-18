@@ -2,7 +2,7 @@
     "name": "red-social",
     "version": "1.0.0",
     "description": "Red Social con Node.js y Angular",
-    "main": "server/index.js",
+    "main": "server/server.js",
     "scripts": {
         "start": "node server/server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,6 +16,7 @@
         "express": "^4.16.4",
         "express-fileupload": "^1.1.4",
         "jsonwebtoken": "^8.3.0",
+        "moment": "^2.24.0",
         "mongoose": "^5.5.1",
         "mongoose-pagination": "^1.0.0",
         "mongoose-unique-validator": "^2.0.3",

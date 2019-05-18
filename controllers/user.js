@@ -4,6 +4,7 @@ const _ = require('underscore');
 //Importar modelo
 const User = require('../models/user');
 const Follow = require('../models/follow');
+const Publication = require('../models/publication');
 
 
 function home(req, res) {
@@ -282,14 +283,16 @@ function getCounters(req, res) {
         getCountersFollow(req.params.id).then((value) => {
             return res.json({
                 following: value.following,
-                followed: value.followed
+                followed: value.followed,
+                cant_publications: value.cant_publications
             })
         }).catch((err) => { return res.json({ ok: false, msg: err }) });
     } else {
         getCountersFollow(req.user._id).then((value) => {
             return res.json({
                 following: value.following,
-                followed: value.followed
+                followed: value.followed,
+                cant_publications: value.cant_publications
             })
         }).catch((err) => { return res.json({ ok: false, msg: err }) });
     }
@@ -298,17 +301,15 @@ function getCounters(req, res) {
 
 async function getCountersFollow(user_id) {
 
-    const following = await Follow.countDocuments({
-        "user": user_id
-    });
+    const following = await Follow.countDocuments({ "user": user_id });
 
-    const followed = await Follow.countDocuments({
-        "user_followed": user_id
-    });
+    const followed = await Follow.countDocuments({ "user_followed": user_id });
+    let cant_publications = await Publication.countDocuments({ user: user_id });
 
     return {
         following,
-        followed
+        followed,
+        cant_publications
     }
 }
 
