@@ -5,7 +5,8 @@ let MessageSchema = new Schema({
 
     text: String,
     created_at: String,
-    emmiter: {
+    viewed: Boolean,
+    emitter: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
