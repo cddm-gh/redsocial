@@ -6,7 +6,7 @@ const api = express.Router();
 
 api.get('/home', UserController.home);
 api.post('/login', UserController.loginUser);
-api.post('/save', [verificaToken, verificaAdminRol], UserController.saveUser);
+api.post('/registro', UserController.saveUser);
 api.get('/listar/:id', verificaToken, UserController.getUsuario);
 api.get('/listar', verificaToken, UserController.getAllUsers);
 api.put('/actualizar/:id', verificaToken, UserController.actualizarUsuario);

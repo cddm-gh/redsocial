@@ -1,1 +1,50 @@
-<h1>{{title}}</h1>
+<div class="container">
+    <div class="col-lg-6 offset-3">
+        <h1 class="h1-strong" align="center">{{title}}</h1>
+
+        <div class="alert alert-success" *ngIf="status == 'success'">
+            Usuario registrado correctamente <a [routerLink]="['/login']">Identificate aquí</a>
+        </div>
+        <div class="alert alert-danger" *ngIf="status == 'error'">
+            Registrado no realizado, quizás el e-mail o nick ya se encuentran registrados. Intente nuevamente con otros.
+        </div>
+        <form #registerForm="ngForm" (ngSubmit)="onSubmit(registerForm)" class="col-lg-10">
+            <p>
+                <label>Nombre</label>
+                <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required autocomplete="off" />
+                <span *ngIf="!name.valid && name.touched">
+                El nombre es obligatorio
+            </span>
+            </p>
+            <p>
+                <label>Apellido</label>
+                <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control" required autocomplete="off" />
+                <span *ngIf="!surname.valid && surname.touched">
+                El apellido es obligatorio
+            </span>
+            </p>
+            <p>
+                <label>Nick</label>
+                <input type="text" name="nick" #nick="ngModel" [(ngModel)]="user.nick" class="form-control" required autocomplete="off" minlength="4" />
+                <span *ngIf="!nick.valid && nick.touched">
+                El nick es obligatorio
+            </span>
+            </p>
+            <p>
+                <label>E-Mail</label>
+                <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" autocomplete="off" pattern="[a-zA-Z0-9!#$%&amp;'*+\/=?^_`{|}~.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*" required />
+                <span *ngIf="!email.valid && email.touched">
+                El e-mail es obligatorio
+            </span>
+            </p>
+            <p>
+                <label>Password</label>
+                <input type="password" name="password" #password="ngModel" [(ngModel)]="user.password" class="form-control" required minlength="8" title="Minimo 8 carácteres" />
+                <span *ngIf="!password.valid && password.touched">
+                El password es obligatorio
+            </span>
+            </p>
+            <input type="submit" value="{{title}}" class="btn btn-primary" [disabled]="!registerForm.form.valid" />
+        </form>
+    </div>
+</div>

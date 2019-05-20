@@ -172,7 +172,6 @@ function loginUser(req, res) {
             user: usuarioDB
         }, process.env.SEED, { expiresIn: process.env.CADUCIDAD_TOKEN });
 
-
         if (usuarioDB) {
             return res.send({
                 ok: true,
