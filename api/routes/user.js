@@ -13,5 +13,6 @@ api.put('/actualizar/:id', verificaToken, UserController.actualizarUsuario);
 api.put('/borrar/:id', [verificaToken, verificaAdminRol], UserController.borrarUsuario);
 api.delete('/eliminar/:id', [verificaToken, verificaAdminRol], UserController.eliminarCompletoUsuario);
 api.get('/stats/:id?', verificaToken, UserController.getCounters);
+api.get('/get-user-img/:imageFile', UserController.getUserImage);
 
 module.exports = api;

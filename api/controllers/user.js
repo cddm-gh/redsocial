@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const _ = require('underscore');
+const path = require('path');
+const fs = require('fs');
 //Importar modelo
 const User = require('../models/user');
 const Follow = require('../models/follow');
@@ -276,6 +278,20 @@ function uploadImage(req, res) {
     }
 }
 
+//Ver imágen del usuario
+function getUserImage(req, res) {
+    let image_file = req.params.imageFile;
+    let path_file = path.resolve(__dirname, `../uploads/users/${image_file}`);
+
+    fs.exists(path_file, (exists) => {
+        if (exists) {
+            res.sendFile(path_file);
+        } else {
+            res.status(200).send({ msg: "El usuario no tiene imágen" })
+        }
+    })
+}
+
 function getCounters(req, res) {
 
     if (req.params.id) {
@@ -322,5 +338,6 @@ module.exports = {
     borrarUsuario,
     eliminarCompletoUsuario,
     uploadImage,
-    getCounters
+    getCounters,
+    getUserImage
 }

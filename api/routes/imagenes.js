@@ -5,7 +5,7 @@ const app = express();
 const { verificaTokenUrl } = require('../middlewares/autenticacion');
 
 //Devolver imágen del usuario
-app.get('/user-img/:img', verificaTokenUrl, (req, res) => {
+app.get('/get-user-prof-img/:img', verificaTokenUrl, (req, res) => {
 
     let img = req.params.img;
 
