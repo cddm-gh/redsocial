@@ -17,60 +17,59 @@ function home(req, res) {
 function getAllUsers(req, res) {
 
     let user_id = req.user._id;
-    let desde = req.query.desde || 0;
-    desde = Number(desde);
-    let limite = req.query.limite || 10;
-    limite = Number(limite);
+    let page = 1;
+    let itemsPerPage = 5;
+
+    if (req.params.page) {
+        page = req.params.page;
+    }
 
     User.find({ status: true })
-        .skip(desde)
-        .limit(limite)
-        .sort('_id')
-        .exec((err, usuarios) => {
-
+        .sort('_.id')
+        .paginate(page, itemsPerPage, (err, users, total) => {
             if (err) { return res.status(500).json({ ok: false, msg: `Error ${err}` }); }
 
-            //Debe tener el mismo parámetro de Usuario.find para que los cuente de la misma manera
-            User.countDocuments({ status: true }, (err, conteo) => {
+            if (!users) { return res.status(500).json({ ok: false, msg: `Error ${err}` }); }
 
-                if (err) { return res.status(500).json({ msg: `${err}` }); }
+            followUsersIds(user_id)
+                .then((value) => {
+                    return res.status(200).json({
+                        ok: true,
+                        users,
+                        users_i_follow: value.following,
+                        users_following_me: value.followed,
+                        total,
+                        pages: Math.ceil(total / itemsPerPage)
+                    });
+                })
+        })
 
-                followUsersIds(user_id)
-                    .then((value) => {
-                        return res.status(200).json({
-                            ok: true,
-                            usuarios,
-                            users_i_follow: value.following,
-                            users_following_me: value.followed,
-                            total: conteo,
-                            pages: Math.ceil(conteo / limite)
-                        });
-                    })
-            });
-
-        });
 }
 
 async function followUsersIds(user_id) {
 
     //Obtener los usuarios a los que estoy siguiendo
-    const following = await Follow.find({ user: user_id }, (err, follows) => {
+    try {
+        const following = await Follow.find({ user: user_id }, (err, follows) => {
 
-        if (err) return res.json({ ok: false, msg: err })
+            if (err) return res.json({ ok: false, msg: err })
 
-        return follows;
-    }).select({ '_id': 0, '__v': 0, 'user': 0 });
+            return follows;
+        }).select({ '_id': 0, '__v': 0, 'user': 0 });
 
-    //Obtener los usuarios que me siguen
-    const followed = await Follow.find({ user_followed: user_id }, (err, follows) => {
-        if (err) return res.json({ ok: false, msg: err })
+        //Obtener los usuarios que me siguen
+        const followed = await Follow.find({ user_followed: user_id }, (err, follows) => {
+            if (err) return res.json({ ok: false, msg: err })
 
-        return follows;
-    }).select({ '_id': 0, '__v': 0, 'user_followed': 0 });
+            return follows;
+        }).select({ '_id': 0, '__v': 0, 'user_followed': 0 });
 
-    return {
-        following,
-        followed
+        return {
+            following,
+            followed
+        }
+    } catch (e) {
+        return `Error ${e}`;
     }
 
 }
