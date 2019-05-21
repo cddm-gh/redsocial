@@ -31,7 +31,7 @@
 
         <ul class="navbar-nav" *ngIf="identity">
             <li class="avatar">
-
+                <img src="{{url+'get-user-img/'+identity.image}}" *ngIf="identity && identity.image" class="img-avatar" />
             </li>
             <li class="nav-item dropdown">
                 <a class="dropdown-toggle nav-link" [routerLinkActive]="['active']" data-toggle="dropdown" href="#" aria-expanded="false">
@@ -45,7 +45,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a [routerLink]="['/update-info']">
                             <i class="fas fa-users-cog"></i> Mis Datos
                         </a>
                     </li>

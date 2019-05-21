@@ -79,4 +79,12 @@ export class UserService{
             return this._http.get(this.url+'stats', {headers:headers});
         }
     }
+
+    updateUser(user:User):Observable<any>{
+        let params = JSON.stringify(user);
+        let headers = new HttpHeaders().set('Content-Type', 'application/json')
+                                        .set('token',this.getToken());
+
+        return this._http.put(this.url + 'actualizar/' + user._id, params, {headers:headers});
+    }
 }

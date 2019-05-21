@@ -1,5 +1,47 @@
 <div class="container">
     <div class="col-lg-6 offset-3">
         <h1 class="h1-strong" align="center">{{title}}</h1>
+        <div class="alert alert-success" *ngIf="status == 'success'">
+            Datos actualizados correctamente.
+        </div>
+        <div class="alert alert-danger" *ngIf="status == 'error'">
+            No se ha podido actualizar los datos. {{error_msg}}
+        </div>
+        <form #userEditForm="ngForm" (ngSubmit)="onSubmit()" class="col-lg-12">
+            <p>
+                <label>Nombre</label>
+                <input type="text" name="name" #name="ngModel" [(ngModel)]="user.name" class="form-control" required/>
+                <span *ngIf="!name.valid">El nombre es obligatorio</span>
+            </p>
+            <p>
+                <label>Apellido</label>
+                <input type="text" name="surname" #surname="ngModel" [(ngModel)]="user.surname" class="form-control" required/>
+                <span *ngIf="!surname.valid">El apellido es obligatorio</span>
+            </p>
+            <p>
+                <label>Nick</label>
+                <input type="text" name="nick" #nick="ngModel" [(ngModel)]="user.nick" class="form-control" required />
+                <span *ngIf="!nick.valid">El nick es obligatorio</span>
+            </p>
+            <p>
+                <label>E-mail</label>
+                <input type="email" name="email" #email="ngModel" [(ngModel)]="user.email" class="form-control" required />
+                <span *ngIf="!email.valid">El e-mail es obligatorio</span>
+            </p>
+            <hr>
+            <div *ngIf="user.image">
+                <p>
+                    <label>Sube tu Imágen</label>
+                </p>
+                <img src="{{url+'get-user-img/'+user.image}}" alt="Imágen de usuario" class="img-user" />
+
+            </div>
+
+            <input type="file" name="archivo" id="archivo" placeholder="subir imágen" (change)="fileChangeEvent($event)">
+            <hr>
+            <p>
+                <input type="submit" value="{{title}}" class="btn btn-success" [disabled]="!userEditForm.form.valid">
+            </p>
+        </form>
     </div>
 </div>
