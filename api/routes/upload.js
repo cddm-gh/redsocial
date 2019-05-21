@@ -91,7 +91,7 @@ function imagenUsuario(id, res, nombreArchivo) {
 
             return res.json({
                 ok: true,
-                usuario: usuarioGuardado
+                user: usuarioGuardado
             });
 
         });
