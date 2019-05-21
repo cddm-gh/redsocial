@@ -8,7 +8,7 @@
 
         <ul class="navbar-nav mr-auto" *ngIf="identity">
             <li class="nav-item">
-                <a [routerLink]="['/home']" class="nav-link active"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
+                <a [routerLink]="['/home']" [routerLinkActive]="['active']" class="nav-link"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a href="#" class="nav-link"><i class="fas fa-list"></i> Timeline</a>

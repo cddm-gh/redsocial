@@ -15,6 +15,7 @@ const routes: Routes = [
   {path: 'registro', component: RegisterComponent},
   {path: 'update-info', component: UserEditComponent},
   {path: 'gente', component: UsersComponent},
+  {path: 'gente/:page', component: UsersComponent},
   {path: '**', component: HomeComponent}//ruta 404
 ];
 

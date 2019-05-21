@@ -67,3 +67,28 @@
     border-radius: 5px;
     text-align: center;
 }
+
+.item-user .image-user {
+    width: 75px;
+    height: 75px;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.item-user .image-user img {
+    width: 120px;
+}
+
+.user-name {
+    font-weight: bold;
+}
+
+.nickname {
+    margin-top: 5px;
+    color: #969393;
+}
+
+.avatar-default {
+    width: 100% !important;
+}

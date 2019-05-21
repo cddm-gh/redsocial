@@ -87,4 +87,18 @@ export class UserService{
 
         return this._http.put(this.url + 'actualizar/' + user._id, params, {headers:headers});
     }
+
+    //Obtener usuarios paginados
+    getUsers(page = null):Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type','application/json')
+                                        .set('token', this.getToken());
+        return this._http.get(this.url + 'listar/'+page, {headers:headers});
+    }
+
+    //Obtener usuario especifico
+    getOneUser(user_id):Observable<any>{
+        let headers = new HttpHeaders().set('Content-Type','application/json')
+                                        .set('token', this.getToken());
+        return this._http.get(this.url + 'listar/' + user_id, {headers:headers});
+    }
 }

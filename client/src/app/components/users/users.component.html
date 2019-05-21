@@ -1,5 +1,42 @@
 <div class="container">
     <div class="col-lg-8 offset-2">
-        <h1 class="h1-strong">{{title}}</h1>
+        <div class="card-title">
+            <h1 class="h1-strong">{{title}}</h1>
+        </div>
+        <!--LISTADO-->
+        <div class="people">
+            <div *ngFor="let user of users" class="item-user">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="image-user pull-left">
+                            <a href="#">
+                                <img src="{{url + 'get-user-img/' + user.image }}" *ngIf="user.image" />
+                                <img src="assets/no-user-img.png" class="avatar-default" *ngIf="!user.image" />
+                            </a>
+                        </div>
+                        <div class="user-name pull-left">
+                            <p>
+                                <a href="#">
+                                {{user.name + ' ' + user.surname}}
+                                </a>
+                            </p>
+                            <p class="nickname">{{user.nick}}</p>
+                        </div>
+                    </div>
+                    <!--SEGUIR / DEJAR DE SEGUIR-->
+                </div>
+            </div>
+        </div>
+        <!--NAVEGACIÓN/PAGINACIÓN-->
+        <ul class="pagination pull-right">
+
+            <li></li>
+        </ul>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li *ngIf="page > 1" class="page-item"><a [routerLink]="['/gente', prev_page]" class="page-link">Anterior</a></li>
+                <li *ngIf="pages != page" class="page-item"><a [routerLink]="['/gente', next_page]" class="page-link">Siguiente</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
