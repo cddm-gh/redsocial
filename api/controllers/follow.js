@@ -13,7 +13,7 @@ function saveFollow(req, res) {
     let params = req.body;
     let follow = new Follow();
     follow.user = req.user._id;
-    follow.user_followed = params.follow;
+    follow.user_followed = params.user_followed;
 
 
     Follow.findOne({ "user": follow.user, "user_followed": follow.user_followed }, (err, result) => {
