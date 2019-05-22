@@ -23,6 +23,7 @@ export class UsersComponent implements OnInit{
     public pages;
     public users:User[];
     public status:string;
+    public follows;
 
     constructor(
         private _route:ActivatedRoute,
@@ -55,7 +56,6 @@ export class UsersComponent implements OnInit{
             }else{
                 page = Number(params['page']);
                 this.page = page;
-                console.log("Page en linea 52 es="+page);
                 this.next_page = page + 1;
                 this.prev_page = page - 1;
                 
@@ -80,6 +80,9 @@ export class UsersComponent implements OnInit{
                     this.total = response.total;
                     this.pages = response.pages;
                     this.users = response.users;
+                    this.follows = response.users_i_follow;
+                    console.log("Usuarios que sigo");
+                    console.log(this.follows);
                     if(page > this.pages){
                         this._router.navigate(['/gente',1]);
                     }
@@ -93,5 +96,14 @@ export class UsersComponent implements OnInit{
                 }
             }
         )
+    }
+
+    public followUserOver;
+    mouseEnter(user_id){
+        this.followUserOver = user_id;
+    }
+
+    mouseLeave(user_id){
+        this.followUserOver = 0;
     }
 }

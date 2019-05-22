@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="col-lg-8 offset-2">
+    <div class="col-lg-10 offset-1">
         <div class="card-title">
             <h1 class="h1-strong">{{title}}</h1>
         </div>
@@ -8,13 +8,13 @@
             <div *ngFor="let user of users" class="item-user">
                 <div class="card">
                     <div class="card-body">
-                        <div class="image-user pull-left">
+                        <div class="image-user float-left">
                             <a href="#">
                                 <img src="{{url + 'get-user-img/' + user.image }}" *ngIf="user.image" />
                                 <img src="assets/no-user-img.png" class="avatar-default" *ngIf="!user.image" />
                             </a>
                         </div>
-                        <div class="user-name pull-left">
+                        <div class="user-name float-left">
                             <p>
                                 <a href="#">
                                 {{user.name + ' ' + user.surname}}
@@ -24,6 +24,19 @@
                         </div>
                     </div>
                     <!--SEGUIR / DEJAR DE SEGUIR-->
+                    <div class="float-right botonera">
+                        <button class="btn btn-success btn-sm" *ngIf="follows.indexOf(user._id) < 0">
+                            <i class="fas fa-user-plus"></i> FOLLOW
+                        </button>
+                        <button class="btn btn-primary btn-sm" *ngIf="follows.indexOf(user._id) >= 0" (mouseenter)="mouseEnter(user._id)" (mouseleave)="mouseLeave()" [class.btn-danger]="user._id == followUserOver">
+                            <span *ngIf="user._id == followUserOver; else following">
+                                <i class="fas fa-user-minus"></i> UNFOLLOW
+                            </span>
+                            <ng-template #following>
+                                <i class="fas fa-check-circle"></i> FOLLOWING
+                            </ng-template>    
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
