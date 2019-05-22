@@ -48,8 +48,8 @@ function getAllUsers(req, res) {
 
 async function followUsersIds(user_id) {
 
-    //Obtener los usuarios a los que estoy siguiendo
     try {
+        //Obtener los usuarios a los que estoy siguiendo
         const following = await Follow.find({ user: user_id }, (err, follows) => {
 
             if (err) return res.json({ ok: false, msg: err })
@@ -64,9 +64,21 @@ async function followUsersIds(user_id) {
             return follows;
         }).select({ '_id': 0, '__v': 0, 'user_followed': 0 });
 
+        //Llenar array solo con los id de los que sigo
+        let following_clean = [];
+        following.forEach((follow) => {
+            following_clean.push(follow.user_followed);
+        })
+
+        //Llenar un array con los id de los que me siguen
+        let followed_clean = [];
+        followed.forEach((follow) => {
+            followed_clean.push(follow.user);
+        })
+
         return {
-            following,
-            followed
+            following: following_clean,
+            followed: followed_clean
         }
     } catch (e) {
         return `Error ${e}`;
